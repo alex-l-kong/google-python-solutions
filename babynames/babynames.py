@@ -42,21 +42,24 @@ def extract_names(filename):
   """
   # +++your code here+++
 
-  ret_list = []
+  ret_list = [] # the list to return
 
   with open(filename, 'r') as fin:
-    date_match = re.findall(r'Popularity in (\d\d\d\d)', fin.read())
-    fin.seek(0)
-    name_match = re.findall(r'<tr align=\"right\"><td>(\d+)</td><td>(\w+)</td><td>(\w+)</td>', fin.read())
+    date_match = re.findall(r'Popularity in (\d\d\d\d)', fin.read()) # extract group from line describing year survey taken
+    fin.seek(0) # reset to the beginning of the file
+    name_match = re.findall(r'<tr align=\"right\"><td>(\d+)</td><td>(\w+)</td><td>(\w+)</td>', fin.read()) # extract groups describing name and respective ranking
 
-    # my_dict = {x[1]: x[0] for x in name_match}
+    # this method adds both the boy and girl information in one pass
+    # elem[0] is the ranking, elem[1] is the boy's name, elem[2] is the girl's name
     my_dict = {}
     for elem in name_match:
       my_dict[elem[1]] = elem[0]
       my_dict[elem[2]] = elem[0]
 
-    ret_list.append(date_match[0])
+    ret_list.append(date_match[0]) # the date is the first element
 
+    # sorted will sort the dict in alphabetical order
+    # that way when we append to the list we will do so in alphabetical order
     for key in sorted(my_dict):
       ret_list.append('{} {}'.format(key, my_dict[key]))
 
@@ -85,13 +88,14 @@ def main():
   while len(args) > 0:
     print(args)
     info = extract_names(args[0])
+
+    # part 1, printing the list information as a string
     var = '\n'.join(info)
+    print(var)
 
-    print(var) # part 1 
-
-    with open(args[0] + '.summary', 'w') as fout: # part 2
+    # part 2, writing to a file with .summary prefix
+    with open(args[0] + '.summary', 'w') as fout:
       fout.write(var)
-
 
     del args[0]
   
