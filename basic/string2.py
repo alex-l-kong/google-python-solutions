@@ -1,3 +1,5 @@
+from math import ceil # so you can directly use ceil function in front_back
+
 #!/usr/bin/python2.4 -tt
 # Copyright 2010 Google Inc.
 # Licensed under the Apache License, Version 2.0
@@ -17,7 +19,14 @@
 # Return the resulting string.
 def verbing(s):
   # +++your code here+++
-  return
+
+  # technically, you could use a nested one liner here
+  # but it's not good form, so keep the edge case of len(s) < 3
+  # it's own separate case
+  if len(s) < 3:
+    return s
+
+  return s + "ly" if s[-3:] == "ing" else s + "ing"
 
 
 # E. not_bad
@@ -30,7 +39,7 @@ def verbing(s):
 # This dinner is good!
 def not_bad(s):
   # +++your code here+++
-  return
+  return s[:s.find('not')] + "good" + s[s.find('bad') + 3:] if s.find('not') < s.find('bad') else s
 
 
 # F. front_back
@@ -42,7 +51,8 @@ def not_bad(s):
 #  a-front + b-front + a-back + b-back
 def front_back(a, b):
   # +++your code here+++
-  return
+  # use ceil function to push result of floating division to next highest integer when string length is odd
+  return a[:ceil(len(a) / 2.0)] + b[:ceil(len(b) / 2.0)] + a[ceil(len(a) / 2.0):] + b[ceil(len(b) / 2.0):]
 
 
 # Simple provided test() function used in main() to print
@@ -52,26 +62,26 @@ def test(got, expected):
     prefix = ' OK '
   else:
     prefix = '  X '
-  print '%s got: %s expected: %s' % (prefix, repr(got), repr(expected))
+  print('%s got: %s expected: %s' % (prefix, repr(got), repr(expected)))
 
 
 # main() calls the above functions with interesting inputs,
 # using the above test() to check if the result is correct or not.
 def main():
-  print 'verbing'
+  print('verbing')
   test(verbing('hail'), 'hailing')
   test(verbing('swiming'), 'swimingly')
   test(verbing('do'), 'do')
 
-  print
-  print 'not_bad'
+  # print
+  print('not_bad')
   test(not_bad('This movie is not so bad'), 'This movie is good')
   test(not_bad('This dinner is not that bad!'), 'This dinner is good!')
   test(not_bad('This tea is not hot'), 'This tea is not hot')
   test(not_bad("It's bad yet not"), "It's bad yet not")
 
-  print
-  print 'front_back'
+  # print
+  print('front_back')
   test(front_back('abcd', 'xy'), 'abxcdy')
   test(front_back('abcde', 'xyz'), 'abcxydez')
   test(front_back('Kitten', 'Donut'), 'KitDontenut')
