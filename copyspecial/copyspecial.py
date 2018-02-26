@@ -33,7 +33,11 @@ def zip_to(paths, zippath):
 
 
 def copy_to(paths, dir_name):
-  # make the directory
+  # for simplicity, if the directory name's path already exists then just remove it
+  if os.path.exists(dir_name):
+    sb.call(["rm", "-rf", dir_name])
+
+  # make the directory, this assumes that the directory doesn't exist!!!
   os.mkdir(dir_name)
 
   # copy each filepath to the directory
