@@ -46,7 +46,7 @@ def get_special_paths(dir_name, todir, tozip):
   # note that the following will only get files in the current directory
   # this approach will need to be modified if we want to descend into other directories
   # that will need the isdir function in os.path
-  special_paths = [os.path.abspath(x) for x in os.listdir(dir_name) if re.search('__\w+__\.\w+', x) is not None]
+  special_paths = [os.path.abspath(x) for x in os.listdir(dir_name) if re.search(r'__\w+__\.\w+', x) is not None]
   
   # check if todir and tozip are set
   # if so then call respective function
